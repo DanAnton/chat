@@ -1,0 +1,29 @@
+<form class="form" [formGroup]="form">
+
+    <div class="left-container">
+        <mat-form-field class="messages">
+            <textarea cdkTextareaAutosize #textArea cdkAutosizeMinRows="1" cdkAutosizeMaxRows="20" [matTextareaAutosize]
+                class="messages" matInput formControlName="messages"></textarea>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput formControlName="message" />
+        </mat-form-field>
+
+        <button mat-button (click)="sendMsg()" [disabled]="!isConnected">Send</button>
+    </div>
+    <div class="right-container" *ngIf="!isConnected">
+        <mat-form-field class="example-full-width">
+            <input matInput formControlName="username" />
+        </mat-form-field>
+        <button mat-button (click)="connect()">Connect</button>
+    </div>
+
+    <div class="right-container" *ngIf="isConnected">
+        <p>Users:</p>
+        <select matNativeControl formControlName="receiver">
+            <option *ngFor="let user of users; let i = index" [value]="user">{{user}}</option>
+        </select>
+
+    </div>
+
+</form>

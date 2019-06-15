@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Chat.Api/bin/Debug/netcoreapp2.2
+/Chat.Api/obj
