@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
@@ -45,7 +46,11 @@ namespace Chat.Api.Middleware
             }
         }
 
-        public List<string> GetAllConnected(string currentUser) => WebSocketConnectionManager.GetAllKeys(currentUser);
+        public List<string> GetAllConnected(string currentUser) 
+            => WebSocketConnectionManager.GetAll()
+                                         .Where(u => u.Value.State == WebSocketState.Open && !u.Key.Equals(currentUser))
+                                         .Select(u => u.Key)
+                                         .ToList();
 
         public abstract Task ReceiveAsync(WebSocket socket, WebSocketReceiveResult result, byte[] buffer);
     }

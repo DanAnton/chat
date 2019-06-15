@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Text;
 using Chat.Api.Extensions;
 using Chat.Api.Helpers;
 using Chat.Api.Middleware;
-using Chat.Primary.Adapters;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Chat.Api
 {
@@ -25,10 +21,7 @@ namespace Chat.Api
         {
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
-
-            var appSettings = appSettingsSection.Get<AppSettings>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddAdapters(appSettings.ConnectionString, appSettings.Secret);
             services.AddCors(options =>
                                  options.AddPolicy("MyPolicy", builder =>
                                                                {
@@ -54,8 +47,6 @@ namespace Chat.Api
             
             app.UseCors("MyPolicy");
 
-          //  app.UseHttpsRedirection();
-          //  app.UseAuthentication();
             app.UseMvc();
             app.MapWebSocketManager("/notification", serviceProvider.GetService<NotificationsMessageHandler>());
         }

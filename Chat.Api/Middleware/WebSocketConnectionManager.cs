@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Threading;
@@ -20,8 +19,6 @@ namespace Chat.Api.Middleware
 
         public string GetId(WebSocket socket)
             => _sockets.FirstOrDefault(p => p.Value == socket).Key;
-
-        public List<string> GetAllKeys(string currentUser) => _sockets.Keys.Where(k => !k.Equals(currentUser)).ToList();
 
         public void AddSocket(WebSocket socket,string username)
             => _sockets.TryAdd(Uri.UnescapeDataString(username)?? CreateConnectionId(), socket);
